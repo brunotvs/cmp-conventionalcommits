@@ -1,7 +1,7 @@
 ---@class cmp-conventionalcommits.PluginOptions
----@field types  string[] | table<string,ConventionalCommitsType>
----@field scopes string[] | table<string,ConventionalCommitsType>
----@field commitlint_path string?
+---@field types  string[] | table<string,ConventionalCommitsType> | nil
+---@field scopes string[] | table<string,ConventionalCommitsType> | nil
+---@field commitlint_path string | nil
 
 ---@class ConventionalCommitsType
 ---@field title string?
