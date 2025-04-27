@@ -20,7 +20,11 @@ function source.new()
   local commitlintTypes = (((commitlintConfig or {})['rules'] or {})['type-enum'] or {})[3] or {}
   source.types = {}
   for _, type in ipairs(commitlintTypes) do
-    source.types[type] = { label = type, kind = require('cmp').lsp.CompletionItemKind.Keyword }
+    ---@type lsp.CompletionItem
+    source.types[type] = {
+      label = type,
+      kind = require('cmp').lsp.CompletionItemKind.Keyword,
+    }
   end
   if next(commitlintTypes) ~= nil then
     plugin.types = {}
@@ -34,7 +38,10 @@ function source.new()
   source.scopes = {}
   local commitlintScopes = (((commitlintConfig or {})['rules'] or {})['scope-enum'] or {})[3] or {}
   for _, scope in ipairs(commitlintScopes) do
-    source.scopes[scope] = { label = scope, kind = require('cmp').lsp.CompletionItemKind.Keyword }
+    source.scopes[scope] = {
+      label = scope,
+      kind = require('cmp').lsp.CompletionItemKind.Keyword,
+    }
   end
   if next(commitlintScopes) ~= nil then
     plugin.scopes = {}
@@ -54,6 +61,18 @@ function source.new()
     if source.types[type] ~= nil then
       source.types[type]['documentation'] = documentation
     end
+  end
+
+  for _, value in pairs(source.types) do
+    value.cmp = {
+      kind_text = 'Type',
+    }
+  end
+
+  for _, value in pairs(source.scopes) do
+    value.cmp = {
+      kind_text = 'Scope',
+    }
   end
 
   return setmetatable({}, { __index = source })
